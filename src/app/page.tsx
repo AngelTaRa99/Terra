@@ -15,7 +15,9 @@ export default function Home() {
     isLoggedIn,
     setSelectedProjectId,
     setSelectedTerrenoId,
+    setIsLoggedIn,
     updateTerrenoEstado,
+    visitaEndTimes,
   } = useProjects();
 
   return (
@@ -24,6 +26,8 @@ export default function Home() {
         projects={projects}
         selectedProjectId={selectedProjectId}
         onProjectChange={setSelectedProjectId}
+        isLoggedIn={isLoggedIn}
+        onToggleRole={() => setIsLoggedIn((v) => !v)}
       />
       <div className="relative flex flex-1">
         <MapContainer
@@ -45,13 +49,14 @@ export default function Home() {
             <span className="inline-block h-3 w-3 rounded-full bg-green-600" /> Vendido
           </span>
         </div>
+        <TerrainSidebar
+          terreno={selectedTerreno}
+          isLoggedIn={isLoggedIn}
+          onClose={() => setSelectedTerrenoId(null)}
+          onEstadoChange={updateTerrenoEstado}
+          visitaEndTimes={visitaEndTimes}
+        />
       </div>
-      <TerrainSidebar
-        terreno={selectedTerreno}
-        isLoggedIn={isLoggedIn}
-        onClose={() => setSelectedTerrenoId(null)}
-        onEstadoChange={updateTerrenoEstado}
-      />
     </div>
   );
 }

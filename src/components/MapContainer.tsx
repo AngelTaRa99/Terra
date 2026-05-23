@@ -14,7 +14,7 @@ const ESTADO_STYLE: Record<TerrenoEstado, { fill: string; stroke: string }> = {
   libre: { fill: 'rgba(34, 197, 94, 0.3)', stroke: '#16a34a' },
   en_visita: { fill: 'rgba(234, 179, 8, 0.3)', stroke: '#ca8a04' },
   apartado: { fill: 'rgba(251, 146, 60, 0.3)', stroke: '#ea580c' },
-  vendido: { fill: 'rgba(34, 197, 94, 0.3)', stroke: '#16a34a' },
+  vendido: { fill: 'rgba(34, 197, 94, 0.6)', stroke: '#15803d' },
 };
 
 const SVG_W = 800;
@@ -91,8 +91,11 @@ export function MapContainer({ project, onTerrenoClick, selectedTerrenoId }: Map
   };
 
   const handleMouseUp = () => {
-    const d = dragRef.current;
-    if (d && !d.moved) return;
+    // handleClickCapture se encarga de limpiar dragRef y detener propagación si hubo arrastre
+  };
+
+  const handleMouseLeave = () => {
+    // Si el mouse sale del SVG sin soltar, no habrá evento click: limpiamos manualmente
     dragRef.current = null;
   };
 
@@ -106,16 +109,11 @@ export function MapContainer({ project, onTerrenoClick, selectedTerrenoId }: Map
     e.preventDefault();
     const pt = getSvgPoint(e.clientX, e.clientY);
     const factor = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom((prev) => {
-      const next = Math.min(20, Math.max(0.1, prev * factor));
-      const wx = (pt.x - pan.x) / prev;
-      const wy = (pt.y - pan.y) / prev;
-      setPan((p) => ({
-        x: pt.x - wx * next,
-        y: pt.y - wy * next,
-      }));
-      return next;
-    });
+    const nextZoom = Math.min(20, Math.max(0.1, zoom * factor));
+    const wx = (pt.x - pan.x) / zoom;
+    const wy = (pt.y - pan.y) / zoom;
+    setPan({ x: pt.x - wx * nextZoom, y: pt.y - wy * nextZoom });
+    setZoom(nextZoom);
   };
 
   const getTouchDist = (touches: React.TouchList) => {
@@ -157,17 +155,12 @@ export function MapContainer({ project, onTerrenoClick, selectedTerrenoId }: Map
       const dist = getTouchDist(e.touches);
       const factor = dist / pinchRef.current.dist;
       const base = pinchRef.current.zoom;
-      setZoom(() => {
-        const next = Math.min(20, Math.max(0.1, base * factor));
-        const svgMid = getSvgPoint(mid.x, mid.y);
-        const wx = (svgMid.x - pan.x) / base;
-        const wy = (svgMid.y - pan.y) / base;
-        setPan((p) => ({
-          x: svgMid.x - wx * next,
-          y: svgMid.y - wy * next,
-        }));
-        return next;
-      });
+      const nextZoom = Math.min(20, Math.max(0.1, base * factor));
+      const svgMid = getSvgPoint(mid.x, mid.y);
+      const wx = (svgMid.x - pan.x) / base;
+      const wy = (svgMid.y - pan.y) / base;
+      setPan({ x: svgMid.x - wx * nextZoom, y: svgMid.y - wy * nextZoom });
+      setZoom(nextZoom);
     }
   };
 
@@ -197,7 +190,7 @@ export function MapContainer({ project, onTerrenoClick, selectedTerrenoId }: Map
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
         onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}

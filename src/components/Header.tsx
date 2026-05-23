@@ -8,16 +8,18 @@ interface HeaderProps {
   projects: Proyecto[];
   selectedProjectId: string;
   onProjectChange: (id: string) => void;
+  isLoggedIn: boolean;
+  onToggleRole: () => void;
 }
 
-export function Header({ projects, selectedProjectId, onProjectChange }: HeaderProps) {
+export function Header({ projects, selectedProjectId, onProjectChange, isLoggedIn, onToggleRole }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const current = projects.find((p) => p.id === selectedProjectId);
   const { tenant } = useTenant();
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4" style={{ backgroundColor: 'var(--color-map-bg)' }}>
-      <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-40 flex items-center px-6 py-4" style={{ backgroundColor: 'var(--color-map-bg)' }}>
+      <div className="flex flex-1 items-center gap-3">
         <img
           src={tenant.assets.logoUrl}
           alt={tenant.companyName}
@@ -67,7 +69,23 @@ export function Header({ projects, selectedProjectId, onProjectChange }: HeaderP
           </>
         )}
       </div>
-      <div className="flex flex-1 justify-end">
+      <div className="flex flex-1 items-center justify-end gap-3">
+        <div className="flex items-center gap-2 text-xs">
+          <span className={`font-medium ${isLoggedIn ? 'text-gray-400' : 'text-gray-700'}`}>Invitado</span>
+          <button
+            onClick={onToggleRole}
+            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+              isLoggedIn ? 'bg-emerald-500' : 'bg-gray-300'
+            }`}
+          >
+            <span
+              className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow-sm transition-transform ${
+                isLoggedIn ? 'translate-x-[18px]' : 'translate-x-[2px]'
+              }`}
+            />
+          </button>
+          <span className={`font-medium ${isLoggedIn ? 'text-emerald-600' : 'text-gray-400'}`}>Vendedor</span>
+        </div>
         <button className="rounded-full border border-gray-300 bg-white p-2.5 text-gray-500 shadow-sm hover:border-gray-400 hover:text-gray-700 hover:shadow-md transition-all">
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

@@ -1,9 +1,9 @@
 import { Proyecto, Terreno, TerrenoEstado } from '@/types';
 
 function parseEstado(desc: string): TerrenoEstado {
-  if (/vendido/i.test(desc)) return 'vendido';
-  if (/apartado/i.test(desc)) return 'apartado';
-  if (/visita/i.test(desc)) return 'en_visita';
+  if (/\bvendido\b/i.test(desc)) return 'vendido';
+  if (/\bapartado\b/i.test(desc)) return 'apartado';
+  if (/\bvisita\b/i.test(desc)) return 'en_visita';
   return 'libre';
 }
 
@@ -51,16 +51,26 @@ function computeSideLengths(coords: { lat: number; lng: number }[]): number[] {
   return sides;
 }
 
+function getTagText(el: Element, tagName: string): string {
+  const ns = el.getElementsByTagNameNS('*', tagName);
+  return ns.length > 0 ? ns[0].textContent ?? '' : '';
+}
+
+function getFirstTag(el: Element, tagName: string): Element | null {
+  const ns = el.getElementsByTagNameNS('*', tagName);
+  return ns.length > 0 ? ns[0] : null;
+}
+
 function parseKmlText(xml: string): Terreno[] {
   const parser = new DOMParser();
   const doc = parser.parseFromString(xml, 'text/xml');
-  const placemarks = Array.from(doc.querySelectorAll('Placemark'));
+  const placemarks = Array.from(doc.getElementsByTagNameNS('*', 'Placemark'));
   const terrenos: Terreno[] = [];
 
   for (const pm of placemarks) {
-    const id_terreno = pm.querySelector('name')?.textContent ?? '';
-    const desc = pm.querySelector('description')?.textContent ?? '';
-    const coordsNode = pm.querySelector('coordinates');
+    const id_terreno = getTagText(pm, 'name');
+    const desc = getTagText(pm, 'description');
+    const coordsNode = getFirstTag(pm, 'coordinates');
     if (!coordsNode?.textContent) continue;
     const ubicacion = coordStringToLatLng(coordsNode.textContent);
 
@@ -79,19 +89,22 @@ function parseKmlText(xml: string): Terreno[] {
   return terrenos;
 }
 
-export async function fetchKmlAsProyecto(url: string): Promise<Proyecto | null> {
+export async function fetchKmlAsProyecto(url: string, proyectoId?: string): Promise<Proyecto | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
     const xml = await res.text();
-    const terrenos = parseKmlText(xml);
+    const terrenos = parseKmlText(xml).map((t) => ({
+      ...t,
+      proyecto_id: proyectoId ?? t.proyecto_id,
+    }));
     if (terrenos.length === 0) return null;
 
     const lats = terrenos.flatMap((t) => t.ubicacion.map((c) => c.lat));
     const lngs = terrenos.flatMap((t) => t.ubicacion.map((c) => c.lng));
 
     return {
-      id: url,
+      id: proyectoId ?? url,
       nombre: url.split('/').pop()?.replace(/\.kml$/, '').replace(/^./, (c) => c.toUpperCase()) ?? 'Proyecto',
       archivo_kmz_url: url.replace(/\.kml$/, '.kmz'),
       coordenadas_centro: {

@@ -9,6 +9,7 @@ interface TerrainSidebarProps {
   isLoggedIn: boolean;
   onClose: () => void;
   onEstadoChange?: (id: string, estado: TerrenoEstado) => void;
+  visitaEndTimes?: Record<string, number>;
 }
 
 const ESTADO_LABEL: Record<TerrenoEstado, string> = {
@@ -30,14 +31,15 @@ export function TerrainSidebar({
   isLoggedIn,
   onClose,
   onEstadoChange,
+  visitaEndTimes = {},
 }: TerrainSidebarProps) {
   const { tenant } = useTenant();
 
   if (!terreno) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 z-30 flex">
-      <div className="w-80 overflow-y-auto border-l border-gray-200 bg-white p-6 shadow-xl">
+    <div className="absolute inset-y-0 right-0 z-30">
+      <div className="h-full w-80 overflow-y-auto border border-gray-200 bg-white p-6 shadow-xl rounded-l-xl">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
             {terreno.id_terreno}
@@ -52,11 +54,18 @@ export function TerrainSidebar({
           </button>
         </div>
 
-        <span
-          className={`mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold ${ESTADO_COLOR[terreno.estado]}`}
-        >
-          {ESTADO_LABEL[terreno.estado]}
-        </span>
+        <div className="mt-3 flex items-center gap-2">
+          <span
+            className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${ESTADO_COLOR[terreno.estado]}`}
+          >
+            {ESTADO_LABEL[terreno.estado]}
+          </span>
+          {terreno.estado === 'en_visita' && visitaEndTimes[terreno.id_terreno] && (
+            <span className="text-xs font-mono text-gray-400">
+              {Math.max(0, Math.ceil((visitaEndTimes[terreno.id_terreno] - Date.now()) / 1000))}s
+            </span>
+          )}
+        </div>
 
         <div className="mt-5 space-y-3 text-sm text-gray-600">
           <div className="flex justify-between">
