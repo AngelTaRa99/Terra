@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Campestre La Vista</name>
+
+    <Style id="style-libre">
+      <PolyStyle><color>4C22B514</color><outline>1</outline></PolyStyle>
+      <LineStyle><color>FF22B514</color><width>2</width></LineStyle>
+    </Style>
+    <Style id="style-vendido">
+      <PolyStyle><color>4C22B514</color><outline>1</outline></PolyStyle>
+      <LineStyle><color>FF22B514</color><width>2</width></LineStyle>
+    </Style>
+
+    <Placemark>
+      <name>CLV-001</name>
+      <description>Libre | 500 m² | $1,400/m²</description>
+      <styleUrl>#style-libre</styleUrl>
+      <Polygon>
+        <outerBoundaryIs><LinearRing><coordinates>-100.2905,25.6515,0 -100.2895,25.6515,0 -100.2895,25.6505,0 -100.2905,25.6505,0 -100.2905,25.6515,0</coordinates></LinearRing></outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>CLV-002</name>
+      <description>Vendido | 350 m² | $1,350/m²</description>
+      <styleUrl>#style-vendido</styleUrl>
+      <Polygon>
+        <outerBoundaryIs><LinearRing><coordinates>-100.2915,25.6515,0 -100.2905,25.6515,0 -100.2905,25.6505,0 -100.2915,25.6505,0 -100.2915,25.6515,0</coordinates></LinearRing></outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

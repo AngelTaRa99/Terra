@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Altavista Residencial</name>
+
+    <Style id="style-libre">
+      <PolyStyle>
+        <color>4C22B514</color>
+        <outline>1</outline>
+      </PolyStyle>
+      <LineStyle>
+        <color>FF22B514</color>
+        <width>2</width>
+      </LineStyle>
+    </Style>
+
+    <Style id="style-vendido">
+      <PolyStyle>
+        <color>4C22B514</color>
+        <outline>1</outline>
+      </PolyStyle>
+      <LineStyle>
+        <color>FF22B514</color>
+        <width>2</width>
+      </LineStyle>
+    </Style>
+
+    <Style id="style-apartado">
+      <PolyStyle>
+        <color>4C3C92EA</color>
+        <outline>1</outline>
+      </PolyStyle>
+      <LineStyle>
+        <color>FF3C92EA</color>
+        <width>2</width>
+      </LineStyle>
+    </Style>
+
+    <Placemark>
+      <name>ALT-001</name>
+      <description>Libre | 250 m² | $850/m²</description>
+      <styleUrl>#style-libre</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -100.3165,25.687,0
+              -100.3158,25.687,0
+              -100.3158,25.6864,0
+              -100.3165,25.6864,0
+              -100.3165,25.687,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+
+    <Placemark>
+      <name>ALT-002</name>
+      <description>Vendido | 320 m² | $920/m²</description>
+      <styleUrl>#style-vendido</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -100.3165,25.6874,0
+              -100.3158,25.6874,0
+              -100.3158,25.687,0
+              -100.3165,25.687,0
+              -100.3165,25.6874,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+
+    <Placemark>
+      <name>ALT-003</name>
+      <description>Apartado | 180 m² | $780/m²</description>
+      <styleUrl>#style-apartado</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -100.317,25.6864,0
+              -100.3165,25.6864,0
+              -100.3165,25.6858,0
+              -100.317,25.6858,0
+              -100.317,25.6864,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+
+    <Placemark>
+      <name>ALT-004</name>
+      <description>Libre | 400 m² | $1,100/m²</description>
+      <styleUrl>#style-libre</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -100.317,25.6874,0
+              -100.3165,25.6874,0
+              -100.3165,25.687,0
+              -100.317,25.687,0
+              -100.317,25.6874,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+
+  </Document>
+</kml>

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #059669;
+  --color-secondary: #0284c7;
+  --color-accent: #d97706;
+  --color-map-bg: #F3F4F6;
+}

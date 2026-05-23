@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Bosques del Valle</name>
+
+    <Style id="style-libre">
+      <PolyStyle><color>4C22B514</color><outline>1</outline></PolyStyle>
+      <LineStyle><color>FF22B514</color><width>2</width></LineStyle>
+    </Style>
+    <Style id="style-vendido">
+      <PolyStyle><color>4C22B514</color><outline>1</outline></PolyStyle>
+      <LineStyle><color>FF22B514</color><width>2</width></LineStyle>
+    </Style>
+    <Style id="style-apartado">
+      <PolyStyle><color>4C3C92EA</color><outline>1</outline></PolyStyle>
+      <LineStyle><color>FF3C92EA</color><width>2</width></LineStyle>
+    </Style>
+
+    <Placemark>
+      <name>BOS-001</name>
+      <description>Vendido | 300 m² | $1,250/m²</description>
+      <styleUrl>#style-vendido</styleUrl>
+      <Polygon>
+        <outerBoundaryIs><LinearRing><coordinates>-100.2748,25.726,0 -100.274,25.726,0 -100.274,25.7253,0 -100.2748,25.7253,0 -100.2748,25.726,0</coordinates></LinearRing></outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>BOS-002</name>
+      <description>Libre | 220 m² | $1,150/m²</description>
+      <styleUrl>#style-libre</styleUrl>
+      <Polygon>
+        <outerBoundaryIs><LinearRing><coordinates>-100.2755,25.726,0 -100.2748,25.726,0 -100.2748,25.7253,0 -100.2755,25.7253,0 -100.2755,25.726,0</coordinates></LinearRing></outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+    <Placemark>
+      <name>BOS-003</name>
+      <description>Apartado | 150 m² | $950/m²</description>
+      <styleUrl>#style-apartado</styleUrl>
+      <Polygon>
+        <outerBoundaryIs><LinearRing><coordinates>-100.2748,25.7253,0 -100.274,25.7253,0 -100.274,25.7248,0 -100.2748,25.7248,0 -100.2748,25.7253,0</coordinates></LinearRing></outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>
